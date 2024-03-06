@@ -2,6 +2,7 @@
 """Implement a pascal triangle
 """
 
+
 def pascal_triangle(n):
     """Implement a pascal triangle
         n(int): number of row of the triangle
@@ -12,8 +13,7 @@ def pascal_triangle(n):
 
     if n <= 0:
         return triangle
-    
-    
+
     new_row = []
     prev_row = []
 
