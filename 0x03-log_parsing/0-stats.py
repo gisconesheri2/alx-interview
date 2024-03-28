@@ -27,7 +27,7 @@ count = 0
 p = r'^[\d+.]*\s-\s\[[\d+-:.\s]*\]\s[\\"\w.\s/]*\s(\d+)\s(\d+)'
 pattern = re.compile(p)
 
-#readline from stdout
+# readline from stdout
 line = sys.stdin.readline()
 while line:
     if count % 10 == 0 and count != 0:
@@ -41,6 +41,6 @@ while line:
         file_size += int(size)
     except Exception:
         pass
-    
+
     line = sys.stdin.readline()
     count += 1
