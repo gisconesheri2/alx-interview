@@ -10,10 +10,10 @@ import re
 def handler(signum, frame):
     """Handler for a SIGINT (ctrl-c) signal
     """
-    print('File size: {}'.format(file_size))
+    print('File size: {:d}'.format(file_size))
     codes_sorted = sorted(codes.keys(), key=lambda k: int(k))
     for cd in codes_sorted:
-        print('{}: {}'.format(cd, codes.get(cd)))
+        print('{}: {:d}'.format(cd, codes.get(cd)))
 
 
 signal.signal(signal.SIGINT, handler)
@@ -28,13 +28,12 @@ p = r'^[\d+.]*\s-\s\[[\d+-:.\s]*\]\s[\\"\w.\s/]*\s(\d+)\s(\d+)'
 pattern = re.compile(p)
 
 # readline from stdout
-line = sys.stdin.readline()
-while line:
+for line in sys.stdin:
     if count % 10 == 0 and count != 0:
-        print('File size: {}'.format(file_size))
+        print('File size: {:d}'.format(file_size))
         codes_sorted = sorted(codes.keys(), key=lambda k: int(k))
         for cd in codes_sorted:
-            print('{}: {}'.format(cd, codes.get(cd)))
+            print('{}: {:d}'.format(cd, codes.get(cd)))
     try:
         code, size = pattern.search(line).groups()
         codes[code] = codes.get(code, 0) + 1
@@ -42,5 +41,4 @@ while line:
     except Exception:
         pass
 
-    line = sys.stdin.readline()
     count += 1
