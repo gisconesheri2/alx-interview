@@ -1,44 +1,45 @@
 #!/usr/bin/python3
-"""
-Parse logging files
-"""
-import signal
+
+""" script that reads stdin line by line and computes metrics """
+
 import sys
-import re
 
 
-def handler(signum, frame):
-    """Handler for a SIGINT (ctrl-c) signal
-    """
-    print('File size: {:d}'.format(file_size))
-    codes_sorted = sorted(codes.keys(), key=lambda k: int(k))
-    for cd in codes_sorted:
-        print('{}: {:d}'.format(cd, codes.get(cd)))
+def printStatus(dic, size):
+    """ Prints information """
+    print("File size: {:d}".format(size))
+    for i in sorted(dic.keys()):
+        if dic[i] != 0:
+            print("{}: {:d}".format(i, dic[i]))
 
 
-signal.signal(signal.SIGINT, handler)
+statusCodes = {"200": 0, "301": 0, "400": 0, "401": 0, "403": 0,
+               "404": 0, "405": 0, "500": 0}
 
-file_size = 0
-codes = {}
 count = 0
-# matches 117.254.206.229 - [2024-03-28 10:10:52.224640]\
-# "GET /projects/260 HTTP/1.1" 405 829
-# and groups the last two numbers
-p = r'^[\d+.]*\s-\s\[[\d+-:.\s]*\]\s[\\"\w.\s/]*\s(\d+)\s(\d+)'
-pattern = re.compile(p)
+size = 0
 
-# readline from stdout
-for line in sys.stdin:
-    if count % 10 == 0 and count != 0:
-        print('File size: {:d}'.format(file_size))
-        codes_sorted = sorted(codes.keys(), key=lambda k: int(k))
-        for cd in codes_sorted:
-            print('{}: {:d}'.format(cd, codes.get(cd)))
-    try:
-        code, size = pattern.search(line).groups()
-        codes[code] = codes.get(code, 0) + 1
-        file_size += int(size)
-    except Exception:
-        pass
+try:
+    for line in sys.stdin:
+        if count != 0 and count % 10 == 0:
+            printStatus(statusCodes, size)
 
-    count += 1
+        stlist = line.split()
+        count += 1
+
+        try:
+            size += int(stlist[-1])
+        except Exception:
+            pass
+
+        try:
+            if stlist[-2] in statusCodes:
+                statusCodes[stlist[-2]] += 1
+        except Exception:
+            pass
+    printStatus(statusCodes, size)
+
+
+except KeyboardInterrupt:
+    printStatus(statusCodes, size)
+    raise
