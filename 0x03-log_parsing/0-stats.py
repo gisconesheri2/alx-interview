@@ -18,7 +18,7 @@ import re
 #        print('{}: {:d}'.format(cd, codes.get(cd)))
 
 
-#signal.signal(signal.SIGINT, handler)
+# signal.signal(signal.SIGINT, handler)
 
 file_size = 0
 codes = {}
