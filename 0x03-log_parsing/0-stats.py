@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """
-Parse logging files
+Fabric script that generates a tgz archive from the contents of the web_static
+folder of the AirBnB Clone repo
 """
 import signal
 import sys
@@ -27,8 +28,8 @@ count = 0
 # and groups the last two numbers
 p = r'^[\d+.]*\s-\s\[[\d+-:.\s]*\]\s[\\"\w.\s/]*\s(\d+)\s(\d+)'
 pattern = re.compile(p)
-
 # readline from stdout
+
 for line in sys.stdin:
     if count % 10 == 0 and count != 0:
         print('File size: {:d}'.format(file_size))
