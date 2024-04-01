@@ -8,7 +8,8 @@ import re
 
 
 def handler(signum, frame):
-    """Handler for a SIGINT (ctrl-c) signal
+    """
+    Handler for a SIGINT (ctrl-c) signal
     """
     print('File size: {:d}'.format(file_size))
     codes_sorted = sorted(codes.keys(), key=lambda k: int(k))
