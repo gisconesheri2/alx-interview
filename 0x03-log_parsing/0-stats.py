@@ -50,3 +50,8 @@ except KeyboardInterrupt:
     for cd in codes_sorted:
         print('{}: {:d}'.format(cd, codes.get(cd)))
     raise
+
+print('File size: {:d}'.format(file_size))
+codes_sorted = sorted(codes.keys(), key=lambda k: int(k))
+for cd in codes_sorted:
+    print('{}: {:d}'.format(cd, codes.get(cd)))
