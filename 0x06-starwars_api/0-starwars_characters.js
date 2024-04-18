@@ -9,27 +9,25 @@ const num = process.argv[2];
 const url = `https://swapi-api.alx-tools.com/api/films/${num}/`;
 
 function getCharacter (url) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(request(url, function (error, response, body) {
-        if (error) {
-          return;
-        }
-        const characterJson = JSON.parse(body);
-        console.log(characterJson.name);
-      }));
-    }, 500);
+  return new Promise((resolve, reject) => {
+    request(url, function (error, response, body) {
+      if (error) {
+        reject(error);
+      }
+      resolve((JSON.parse(body).name));
+    });
   });
 }
 
-request(url, async function (error, responce, body) {
+request(url, function (error, responce, body) {
   if (error) {
-    return;
+    console.log(error);
   }
   const jsonBody = JSON.parse(body);
   const charactersUrls = jsonBody.characters;
+  const charactersName = charactersUrls.map(getCharacter);
 
-  for (const url of charactersUrls) {
-    await getCharacter(url);
-  }
+  Promise.all(charactersName)
+    .then(names => console.log(names.join('\n')))
+    .catch(allErr => console.log(allErr));
 });
