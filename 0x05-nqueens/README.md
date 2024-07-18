@@ -1,0 +1,1 @@
+Nqueens problem solution
