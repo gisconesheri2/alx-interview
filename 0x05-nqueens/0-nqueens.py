@@ -1,4 +1,3 @@
-
 #!/usr/bin/python3
 """
 Solution to the nqueens problem
